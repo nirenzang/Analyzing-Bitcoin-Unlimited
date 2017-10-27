@@ -1,9 +1,9 @@
 # Analyzing-Bitcoin-Unlimited
 This is the evaluation code used in the [CoNEXT 2017](http://conferences2.sigcomm.org/co-next/2017/#!/home) paper ["On the Necessity of a Prescribed Block Validity Consensus: Analyzing Bitcoin Unlimited Mining Protocol"](https://eprint.iacr.org/2017/686.pdf) by [Ren Zhang](https://scholar.google.be/citations?user=JB1uRvQAAAAJ&hl=en) and [Bart Preneel](https://scholar.google.be/citations?user=omio-RsAAAAJ&hl=en). Bitcoin Unlimited was a Bitcoin scaling solution that received the largest mining power support until late June 2017. The code in this repository computes the optimal strategies and the maximum utility of a strategic miner in BU, under a predefined mining power distribution. Three utility functions are defined according to the strategic miner's three incentive models: compliant and profit-driven, non-compliant and profit-driven, non-profit-driven. Please check the paper for the complete definitions of the settings. Results computed by this code show that BU weakens Bitcoin's security when miners don't have a consensus on valid block size. Programmed by Ren Zhang.
 
-**Important: this code is published due to the requirement of the CoNEXT conference. There is a bug in the "non-compliant and profit-driven" part of the code which might lead to inaccurate results. The developer will fix the bug and the numbers in the paper soon.**
-
 The MDP state encoding and transition are quite complicated: many information regarding the structure of the blockchain needs to be encoded in the state to help the attacker make decisions. Therefore if you wish to fully understand and modify this source code rather than using it as a blackbox to execute and compare the results, the developer strongly recommend you to read the paper ["the Optimal Selfish Mining Strategies"](http://www.cs.huji.ac.il/~yoni_sompo/pubs/15/SelfishMining.pdf) and understand [my implementation](https://github.com/nirenzang/Optimal-Selfish-Mining-Strategies-in-Bitcoin) of their algorithm before modifying this code. 
+
+**2017.10.27 Update: the bug in the "non-compliant and profit-driven" part is fixed.**
 
 ## Quick Start
 If you only need the results:
@@ -14,7 +14,7 @@ If you only need the results:
 ```
 addpath('/users/yourname/Desktop/matlab/MDPtoolbox/fsroot/MDPtoolbox');
 ```
-5. Modify *AD*, *alpha*, *beta*, *gamma* in `Init.m`. See there definitions in the paper.
+5. Modify *AD*, *alpha*, *beta*, *gamma* in `Init.m`. See their definitions in the paper.
 6. Run `Init.m`.
 
 ## Implementation
@@ -27,7 +27,7 @@ This function does the reverse conversion.
 * `SolveStrategy.m`
 The code that actually computes the optimal mining strategies. The structure of the code follows the paper.
 * `Checkstnum2st.m`
-A test file, check whether `st2stnum.m` and `stnum2st.m` are bijection.
+A test file, check whether `st2stnum.m` and `stnum2st.m` make a bijection.
 
 ## Citation
 Zhang R., Preneel B. (2017) On the Necessity of a Prescribed Block Validity Consensus: Analyzing Bitcoin Unlimited Mining Protocol. In: Proceedings of the 13th International on Conference on emerging Networking EXperiments and Technologies. ACM, 2017.
