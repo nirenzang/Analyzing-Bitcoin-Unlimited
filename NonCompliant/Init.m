@@ -1,9 +1,11 @@
 addpath('/users/cosic/rzhang/Desktop/matlab/MDPtoolbox/fsroot/MDPtoolbox');
 clear
 
-global AD maxSG numOfStates numOfStatesP1P2 alpha beta gamma rou DSR;
+global AD maxSG numOfStates numOfStatesP1P2 alpha beta gamma;
+global rou DSR DSConfirmations;
 AD = 5;
 maxSG = 144;
+DSConfirmations=4;
 % Initialize some parameters for the state space
 global mid2Until;
 % when l2==i (i!=0), a1, a2, l1 are encoded as [0, mid2Range(i)]
@@ -34,46 +36,40 @@ alphav = [0.01 0.025 0.05 0.1 0.15 0.2 0.25];
 ratiov = [4 3 2 1.5 1 2.0/3 0.5 1.0/3 0.25];
 DSR = 10;
 
-numOfStates = numOfStatesP1P2;
-alpha = 0.2; beta = 0.8/4*3; gamma = 0.2;
-SolveStrategy;
 numOfStates = numOfStatesP1;
-SolveStrategy;
+setting1Results = zeros(7, 9);
+for ratioI = 1:9
+    for alphaI = 1:7
+        disp(['setting1, numOfStates: ' num2str(numOfStates)...
+            ' AD: ' num2str(AD+1) ' maxSG: ' num2str(maxSG)]);
+        alpha = alphav(alphaI);
+        beta = (1-alpha)/(1+ratiov(ratioI))*ratiov(ratioI);
+        gamma = 1-alpha-beta;
+        if alpha > beta+0.001 || alpha > gamma+0.001
+            continue
+        end
+        disp(['AttackerMiningPower: ' num2str(alpha) ' smallEBMiner Bob: '...
+            num2str(beta) ' bigEBMiner Carol: ' num2str(gamma)]);
+        SolveStrategy;
+        setting1Results(alphaI, ratioI) = rou;
+    end
+end
 
-% numOfStates = numOfStatesP1;
-% setting1Results = zeros(7, 9);
-% for ratioI = 1:9
-%     for alphaI = 1:7
-%         disp(['setting1, numOfStates: ' num2str(numOfStates)...
-%             ' AD: ' num2str(AD+1) ' maxSG: ' num2str(maxSG)]);
-%         alpha = alphav(alphaI);
-%         beta = (1-alpha)/(1+ratiov(ratioI))*ratiov(ratioI);
-%         gamma = 1-alpha-beta;
-%         if alpha > beta+0.001 || alpha > gamma+0.001
-%             continue
-%         end
-%         disp(['AttackerMiningPower: ' num2str(alpha) ' smallEBMiner Bob: '...
-%             num2str(beta) ' bigEBMiner Carol: ' num2str(gamma)]);
-%         SolveStrategy;
-%         setting1Results(alphaI, ratioI) = rou;
-%     end
-% end
-% 
-% numOfStates = numOfStatesP1P2;
-% setting2Results = zeros(7, 9);
-% for ratioI = 1:9
-%     for alphaI = 1:7
-%         disp(['setting2, numOfStates: ' num2str(numOfStates)...
-%             ' AD: ' num2str(AD+1) ' maxSG: ' num2str(maxSG)]);
-%         alpha = alphav(alphaI);
-%         beta = (1-alpha)/(1+ratiov(ratioI))*ratiov(ratioI);
-%         gamma = 1-alpha-beta;
-%         if alpha > beta+0.001 || alpha > gamma+0.001
-%             continue
-%         end
-%         disp(['AttackerMiningPower: ' num2str(alpha) ' smallEBMiner Bob: '...
-%             num2str(beta) ' bigEBMiner Carol: ' num2str(gamma)]);
-%         SolveStrategy;
-%         setting2Results(alphaI, ratioI) = rou;
-%     end
-% end
+numOfStates = numOfStatesP1P2;
+setting2Results = zeros(7, 9);
+for ratioI = 1:9
+    for alphaI = 1:7
+        disp(['setting2, numOfStates: ' num2str(numOfStates)...
+            ' AD: ' num2str(AD+1) ' maxSG: ' num2str(maxSG)]);
+        alpha = alphav(alphaI);
+        beta = (1-alpha)/(1+ratiov(ratioI))*ratiov(ratioI);
+        gamma = 1-alpha-beta;
+        if alpha > beta+0.001 || alpha > gamma+0.001
+            continue
+        end
+        disp(['AttackerMiningPower: ' num2str(alpha) ' smallEBMiner Bob: '...
+            num2str(beta) ' bigEBMiner Carol: ' num2str(gamma)]);
+        SolveStrategy;
+        setting2Results(alphaI, ratioI) = rou;
+    end
+end

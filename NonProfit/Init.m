@@ -33,12 +33,6 @@ numOfStatesP1P2 = maxSG*(mid2Until(AD)+1)+mid2Until(AD)+1;
 alphav = [0.01 0.025 0.05 0.1 0.15 0.2 0.25];
 ratiov = [4 3 2 1.5 1 2.0/3 0.5 1.0/3 0.25];
 
-% numOfStates = numOfStatesP1P2;
-% alpha = 0.1; beta = 0.45; gamma = 0.45;
-% SolveStrategy;
-% numOfStates = numOfStatesP1;
-% SolveStrategy;
-
 numOfStates = numOfStatesP1;
 setting1Results = zeros(7, 9);
 for ratioI = 1:9

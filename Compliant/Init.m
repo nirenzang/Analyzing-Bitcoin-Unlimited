@@ -33,44 +33,40 @@ numOfStatesP1P2 = maxSG*(mid2Until(AD)+1)+mid2Until(AD)+1;
 alphav = [0.01 0.025 0.05 0.1 0.15 0.2 0.25];
 ratiov = [4 3 2 1.5 1 2.0/3 0.5 1.0/3 0.25];
 
-numOfStates = numOfStatesP1P2;
-alpha = 0.2; beta = 0.8/3; gamma = 1.6/3;
-SolveStrategy;
+numOfStates = numOfStatesP1;
+setting1Results = zeros(7, 9);
+for ratioI = 1:9
+    for alphaI = 1:7
+        disp(['setting1, numOfStates: ' num2str(numOfStates)...
+            ' AD: ' num2str(AD+1) ' maxSG: ' num2str(maxSG)]);
+        alpha = alphav(alphaI);
+        beta = (1-alpha)/(1+ratiov(ratioI))*ratiov(ratioI);
+        gamma = 1-alpha-beta;
+        if alpha > beta || alpha > gamma
+            continue
+        end
+        disp(['AttackerMiningPower: ' num2str(alpha) ' smallEBMiner Bob: '...
+            num2str(beta) ' bigEBMiner Carol: ' num2str(gamma)]);
+        SolveStrategy;
+        setting1Results(alphaI, ratioI) = rou;
+    end
+end
 
-% numOfStates = numOfStatesP1;
-% setting1Results = zeros(7, 9);
-% for ratioI = 1:9
-%     for alphaI = 1:7
-%         disp(['setting1, numOfStates: ' num2str(numOfStates)...
-%             ' AD: ' num2str(AD+1) ' maxSG: ' num2str(maxSG)]);
-%         alpha = alphav(alphaI);
-%         beta = (1-alpha)/(1+ratiov(ratioI))*ratiov(ratioI);
-%         gamma = 1-alpha-beta;
-%         if alpha > beta || alpha > gamma
-%             continue
-%         end
-%         disp(['AttackerMiningPower: ' num2str(alpha) ' smallEBMiner Bob: '...
-%             num2str(beta) ' bigEBMiner Carol: ' num2str(gamma)]);
-%         SolveStrategy;
-%         setting1Results(alphaI, ratioI) = rou;
-%     end
-% end
-% 
-% numOfStates = numOfStatesP1P2;
-% setting2Results = zeros(7, 9);
-% for ratioI = 1:9
-%     for alphaI = 1:7
-%         disp(['setting2, numOfStates: ' num2str(numOfStates)...
-%             ' AD: ' num2str(AD+1) ' maxSG: ' num2str(maxSG)]);
-%         alpha = alphav(alphaI);
-%         beta = (1-alpha)/(1+ratiov(ratioI))*ratiov(ratioI);
-%         gamma = 1-alpha-beta;
-%         if alpha > beta || alpha > gamma
-%             continue
-%         end
-%         disp(['AttackerMiningPower: ' num2str(alpha) ' smallEBMiner Bob: '...
-%             num2str(beta) ' bigEBMiner Carol: ' num2str(gamma)]);
-%         SolveStrategy;
-%         setting2Results(alphaI, ratioI) = rou;
-%     end
-% end
+numOfStates = numOfStatesP1P2;
+setting2Results = zeros(7, 9);
+for ratioI = 1:9
+    for alphaI = 1:7
+        disp(['setting2, numOfStates: ' num2str(numOfStates)...
+            ' AD: ' num2str(AD+1) ' maxSG: ' num2str(maxSG)]);
+        alpha = alphav(alphaI);
+        beta = (1-alpha)/(1+ratiov(ratioI))*ratiov(ratioI);
+        gamma = 1-alpha-beta;
+        if alpha > beta || alpha > gamma
+            continue
+        end
+        disp(['AttackerMiningPower: ' num2str(alpha) ' smallEBMiner Bob: '...
+            num2str(beta) ' bigEBMiner Carol: ' num2str(gamma)]);
+        SolveStrategy;
+        setting2Results(alphaI, ratioI) = rou;
+    end
+end
